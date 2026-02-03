@@ -235,8 +235,8 @@ export default function HomePage() {
     [items]
   );
 
-  if (loading) return <div className="p-10 text-center">Loading items from database...</div>;
-  if (error) return <div className="p-10 text-center text-red-600">Error: {error}</div>;
+  if (loading) return <div className="p-6 sm:p-10 text-center text-sm sm:text-base">Loading items from database...</div>;
+  if (error) return <div className="p-6 sm:p-10 text-center text-red-600 text-sm sm:text-base">Error: {error}</div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -246,7 +246,7 @@ export default function HomePage() {
         setIsAddModalOpen={setIsAddModalOpen}
       />
 
-      <main className="flex-grow container mx-auto p-4">
+      <main className="flex-grow w-full max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4">
         <ItemList
           items={filteredAndSortedItems}
           customKeys={customKeys}

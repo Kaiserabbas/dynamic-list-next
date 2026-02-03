@@ -131,7 +131,7 @@ const ItemList = ({
           className="border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 w-full sm:w-80 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-2 sm:gap-3 items-center">
           {/* Sort buttons */}
           {['name', 'price', 'total', 'date'].map(key => (
             <button
@@ -145,7 +145,7 @@ const ItemList = ({
                 }
                 setCurrentPage(1);
               }}
-              className={`px-3 py-1.5 text-sm rounded-md transition ${
+              className={`px-3 py-1.5 text-xs sm:text-sm rounded-md transition ${
                 sortBy === key ? 'bg-blue-100 dark:bg-blue-900' : 'bg-gray-200 dark:bg-gray-700'
               } hover:bg-gray-300 dark:hover:bg-gray-600`}
             >
@@ -174,7 +174,7 @@ const ItemList = ({
       </div>
 
       {/* Showing X–Y of Z */}
-      <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+      <div className="mb-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
         Showing <strong>{startItem}–{endItem}</strong> of <strong>{totalItems}</strong> items
       </div>
 
@@ -187,43 +187,43 @@ const ItemList = ({
 
         return (
           <div key={date} className="mb-10">
-            <h2 className="text-lg font-semibold mb-3 border-b border-gray-300 dark:border-gray-600 pb-2">
+            <h2 className="text-base sm:text-lg font-semibold mb-3 border-b border-gray-300 dark:border-gray-600 pb-2">
               {formatDate(date)}
             </h2>
 
             <div className="overflow-x-auto rounded-lg shadow-sm">
-              <table className="min-w-full bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              <table className="min-w-full text-xs sm:text-sm bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Quantity</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Total</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Created by</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Notes</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">Name</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">Qty</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">Price</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">Total</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">Created by</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">Notes</th>
                     {customKeys.map(key => (
-                      <th key={key} className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                      <th key={key} className="px-3 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium uppercase tracking-wider">
                         {key}
                       </th>
                     ))}
-                    <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">Actions</th>
+                    <th className="px-3 sm:px-4 py-2 sm:py-3 text-right text-[10px] sm:text-xs font-medium uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {visibleInGroup.map(item => (
                     <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                      <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{item.quantity ?? '—'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{item.price ?? '—'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap font-medium">{item.total ?? '—'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
+                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap">{item.name}</td>
+                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap">{item.quantity ?? '—'}</td>
+                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap">{item.price ?? '—'}</td>
+                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap font-medium">{item.total ?? '—'}</td>
+                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap text-gray-600 dark:text-gray-300">
                         {item.created_by}
                       </td>
-                      <td className="px-6 py-4">{item.notes ?? '—'}</td>
+                      <td className="px-3 sm:px-4 py-3 max-w-[150px] truncate">{item.notes ?? '—'}</td>
                       {customKeys.map(key => (
-                        <td key={key} className="px-6 py-4">{item.customFields?.[key] ?? '—'}</td>
+                        <td key={key} className="px-3 sm:px-4 py-3 max-w-[120px] truncate">{item.customFields?.[key] ?? '—'}</td>
                       ))}
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
                         <button
                           onClick={() => onEdit(item)}
                           className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3"
