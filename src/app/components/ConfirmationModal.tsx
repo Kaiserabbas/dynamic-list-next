@@ -31,10 +31,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-3" onClick={onClose}>
       <div
         ref={modalRef}
-        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 transform transition-all duration-300 scale-100"
+        className="bg-white dark:bg-gray-800 p-5 sm:p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 transform transition-all duration-300 scale-100"
         onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
         tabIndex={-1}
         aria-modal="true"
