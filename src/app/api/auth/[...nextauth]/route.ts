@@ -46,29 +46,34 @@ export const authOptions: NextAuthOptions = {
 
         if (!sql) return null;
 
-        // Lookup user in DB
-        const rows = await sql`
-          SELECT id, name, email, password_hash, role
-          FROM users
-          WHERE email = ${credentials.email}
-          LIMIT 1
-        `;
+        try {
+          // Lookup user in DB
+          const rows = await sql`
+            SELECT id, name, email, password_hash, role
+            FROM users
+            WHERE email = ${credentials.email}
+            LIMIT 1
+          `;
 
-        const user = rows[0];
-        if (!user) return null;
+          const user = rows[0];
+          if (!user) return null;
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password_hash
-        );
-        if (!isValid) return null;
+          const isValid = await bcrypt.compare(
+            credentials.password,
+            user.password_hash
+          );
+          if (!isValid) return null;
 
-        return {
-          id: String(user.id),
-          name: user.name,
-          email: user.email,
-          role: user.role || "user",
-        } as any;
+          return {
+            id: String(user.id),
+            name: user.name,
+            email: user.email,
+            role: user.role || "user",
+          } as any;
+        } catch (error) {
+          console.error('Database error in authorize:', error);
+          return null;
+        }
       },
     }),
   ],
@@ -85,19 +90,24 @@ export const authOptions: NextAuthOptions = {
 
         // Ensure user exists in DB for Google login
         if (sql && user.email) {
-          const existing = await sql`
-            SELECT id, role FROM users WHERE email = ${user.email}
-          `;
-          if (existing[0]) {
-            role = existing[0].role || role;
-          } else {
-            const inserted = await sql`
-              INSERT INTO users (name, email, role)
-              VALUES (${user.name || user.email}, ${user.email}, ${role})
-              ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name
-              RETURNING id, role
+          try {
+            const existing = await sql`
+              SELECT id, role FROM users WHERE email = ${user.email}
             `;
-            role = inserted[0].role || role;
+            if (existing[0]) {
+              role = existing[0].role || role;
+            } else {
+              const inserted = await sql`
+                INSERT INTO users (name, email, role)
+                VALUES (${user.name || user.email}, ${user.email}, ${role})
+                ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name
+                RETURNING id, role
+              `;
+              role = inserted[0].role || role;
+            }
+          } catch (error) {
+            console.error('Database error in jwt callback:', error);
+            // Fallback to default role
           }
         }
 
