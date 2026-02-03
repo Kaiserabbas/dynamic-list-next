@@ -4,7 +4,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { X, Plus, Trash2 } from 'lucide-react';
 
-const ItemFormModal = ({
+interface ItemFormModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (item: any) => void; // you can replace `any` with your Item type
+  initialData?: any;
+  title?: string;
+}
+
+const ItemFormModal: React.FC<ItemFormModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
@@ -24,8 +32,8 @@ const ItemFormModal = ({
   const [newKey, setNewKey] = useState('');
   const [newValue, setNewValue] = useState('');
 
-  const [errors, setErrors] = useState({});
-  const contentRef = useRef(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
   // Focus modal when opened
   useEffect(() => {
@@ -35,7 +43,7 @@ const ItemFormModal = ({
   }, [isOpen]);
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
 
     if (!name.trim()) newErrors.name = 'Item name is required';
     if (!createdBy.trim()) newErrors.createdBy = 'Added by is required';
@@ -56,7 +64,7 @@ const ItemFormModal = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -79,7 +87,7 @@ const ItemFormModal = ({
   const addCustomField = () => {
     if (!newKey.trim() || !newValue.trim()) return;
 
-    setCustomFields((prev) => ({
+    setCustomFields((prev: Record<string, string>) => ({
       ...prev,
       [newKey.trim()]: newValue.trim(),
     }));
@@ -88,9 +96,9 @@ const ItemFormModal = ({
     setNewValue('');
   };
 
-  const removeCustomField = (key) => {
-    setCustomFields((prev) => {
-      const updated = { ...prev };
+  const removeCustomField = (key: string) => {
+    setCustomFields((prev: Record<string, string>) => {
+      const updated: Record<string, string> = { ...prev };
       delete updated[key];
       return updated;
     });
@@ -285,9 +293,9 @@ const ItemFormModal = ({
                 Custom Fields
               </h3>
 
-              {Object.entries(customFields).length > 0 && (
+              {Object.entries(customFields as Record<string, string>).length > 0 && (
                 <div className="space-y-3">
-                  {Object.entries(customFields).map(([key, value]) => (
+                  {Object.entries(customFields as Record<string, string>).map(([key, value]) => (
                     <div
                       key={key}
                       className="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700"

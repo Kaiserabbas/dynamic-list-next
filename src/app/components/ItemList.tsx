@@ -6,7 +6,7 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 const ROWS_OPTIONS = [5, 10, 20, 50];
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
   if (!dateString || dateString === 'No Date' || dateString === 'Invalid Date') {
     return 'No Date';
   }
@@ -26,8 +26,8 @@ const formatDate = (dateString) => {
   }
 };
 
-const groupItemsByDate = (items) => {
-  const groups = {};
+const groupItemsByDate = (items: any[]) => {
+  const groups: Record<string, any[]> = {};
 
   items.forEach(item => {
     // Fallback to today's date if created_at is missing or invalid
@@ -56,7 +56,20 @@ const groupItemsByDate = (items) => {
     .map(([date, items]) => ({ date, items }));
 };
 
-const ItemList = ({
+interface ItemListProps {
+  items: any[];
+  customKeys: string[];
+  onEdit: (item: any) => void;
+  onDelete: (id: number) => void;
+  search: string;
+  setSearch: (value: string) => void;
+  sortBy: string;
+  setSortBy: (value: string) => void;
+  sortDir: string;
+  setSortDir: (value: string) => void;
+}
+
+const ItemList: React.FC<ItemListProps> = ({
   items,              // now receives ALL filtered & searched items (not paginated yet)
   customKeys,
   onEdit,
