@@ -1,7 +1,14 @@
-"use client";import React from 'react';
+"use client";
+import React from 'react';
 import { MoonIcon, SunIcon, PlusIcon } from '@heroicons/react/24/outline';
 
-const Header = ({ darkMode, setDarkMode, setIsAddModalOpen }) => {
+interface HeaderProps {
+  darkMode: boolean;
+  setDarkMode: (value: boolean) => void;
+  setIsAddModalOpen: (value: boolean) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, setIsAddModalOpen }) => {
   return (
     <header className="bg-white dark:bg-gray-800 shadow-md p-4 flex justify-between items-center">
       <h1 className="text-xl font-bold">SouqStack</h1>
