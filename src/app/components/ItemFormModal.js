@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const ItemFormModal = ({ isOpen, onClose, onSubmit, initialData = {}, title }) => {
   const [name, setName] = useState(initialData.name || '');
-  const [createdBy, setCreatedBy] = useState(initialData.createdBy || ''); // ← new state
+  const [createdBy, setCreatedBy] = useState(initialData.created_by || ''); // ← new state
   const [hasQuantity, setHasQuantity] = useState(!!initialData.quantity);
   const [quantity, setQuantity] = useState(initialData.quantity || '');
   const [hasPrice, setHasPrice] = useState(!!initialData.price);
@@ -46,8 +46,8 @@ const ItemFormModal = ({ isOpen, onClose, onSubmit, initialData = {}, title }) =
     const item = {
       id: initialData.id,
       name: name.trim(),
-      createdAt: initialData.createdAt || new Date().toISOString(),
-      createdBy: createdBy.trim(),           // ← now comes from the input
+      created_at: initialData.created_at || new Date().toISOString(),
+      created_by: createdBy.trim(),           // ← now comes from the input
       ...(hasQuantity && { quantity: Number(quantity) }),
       ...(hasPrice && { price: Number(price) }),
       ...(hasQuantity && hasPrice && { total: Number(quantity) * Number(price) }),
