@@ -6,25 +6,36 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 const ROWS_OPTIONS = [5, 10, 20, 50];
 
-const formatDate = (isoString) => {
-  return new Date(isoString).toLocaleDateString('en-GB', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+const formatDate = (dateString) => {
+  if (!dateString || dateString === 'No Date' || dateString === 'Invalid Date') {
+    return 'No Date';
+  }
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return 'Invalid Date';
+    }
+    return date.toLocaleDateString('en-GB', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  } catch (error) {
+    return 'Invalid Date';
+  }
 };
 
 const groupItemsByDate = (items) => {
   const groups = {};
 
   items.forEach(item => {
-    // Fallback to today's date if createdAt is missing or invalid
+    // Fallback to today's date if created_at is missing or invalid
     let dateKey = 'No Date';
 
-    if (item.createdAt && typeof item.createdAt === 'string') {
+    if (item.created_at && typeof item.created_at === 'string') {
       try {
-        dateKey = item.createdAt.split('T')[0]; // YYYY-MM-DD
+        dateKey = item.created_at.split('T')[0]; // YYYY-MM-DD
       } catch (err) {
         // If split fails for any weird reason, fallback
         dateKey = 'Invalid Date';
@@ -65,8 +76,8 @@ const ItemList = ({
     return [...items].sort((a, b) => {
       if (sortBy === 'date') {
         return sortDir === 'asc'
-          ? a.createdAt.localeCompare(b.createdAt)
-          : b.createdAt.localeCompare(a.createdAt);
+          ? a.created_at.localeCompare(b.created_at)
+          : b.created_at.localeCompare(a.created_at);
       }
       // ... existing name / price / total sorting logic
       let valA = sortBy === 'total' ? (a.quantity * a.price || 0) : (a[sortBy] || '');
@@ -206,7 +217,7 @@ const ItemList = ({
                       <td className="px-6 py-4 whitespace-nowrap">{item.price ?? '—'}</td>
                       <td className="px-6 py-4 whitespace-nowrap font-medium">{item.total ?? '—'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
-                        {item.createdBy}
+                        {item.created_by}
                       </td>
                       <td className="px-6 py-4">{item.notes ?? '—'}</td>
                       {customKeys.map(key => (
