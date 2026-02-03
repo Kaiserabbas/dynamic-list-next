@@ -2,7 +2,7 @@
 import { neon } from '@neondatabase/serverless';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '../auth/[...nextauth]/route';
 
 // Safely initialize the Neon client so builds don't crash if env is missing
 const connectionString = process.env.DATABASE_URL;
